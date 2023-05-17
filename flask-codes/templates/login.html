@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block title %}
+<title>Login Form</title>
+{% endblock %}
+{% block css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/register.css') }}">
+{% endblock %}
+
+
+
+{% block content %}
+
+
+<form action="#" method="post">
+    {{ form.csrf_token }}
+    <h2>Sign Up</h2>
+    <p>
+        <label for="Name" class="floatLabel">Name</label>
+        {{ form.name }}
+        <!-- <input id="Name" name="Name" type="text"> -->
+    </p>
+    <p>
+        <label for="password" class="floatLabel">Password</label>
+        {{ form.password }}
+        <!-- <input id="password" name="password" type="password"> -->
+    </p>
+    <p>
+        <input type="submit" value="Create My Account" id="submit">
+    </p>
+</form>
+{% endblock %}
+
+
+
+{% block js %}
+
+<script src="{{ url_for('static', filename='js/register.js') }}"></script>
+
+{% endblock %}
