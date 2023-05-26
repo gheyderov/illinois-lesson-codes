@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'core',
     'stories',
     'accounts',
+    'social_django',
 ]
 
 MIDDLEWARE = [
@@ -72,6 +73,10 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'food_stories.wsgi.application'
 
+AUTHENTICATION_BACKENDS = [
+    'social_core.backends.facebook.FacebookOAuth2',
+    'django.contrib.auth.backends.ModelBackend',
+]
 
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
@@ -129,6 +134,19 @@ MESSAGE_TAGS = {
 }
 
 
+LOGIN_URL = 'login'
+LOGIN_REDIRECT_URL = 'home'
+LOGOUT_URL = 'logout'
+LOGOUT_REDIRECT_URL = 'login'
+
+#[...]
+
+SOCIAL_AUTH_FACEBOOK_KEY = 254165793860117        # App ID
+SOCIAL_AUTH_FACEBOOK_SECRET = 'c9ec4c53c49266cedf0426aab4d4af19'  # App Secret
+
+#[...]
+
+
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
@@ -144,3 +162,11 @@ MEDIA_URL = '/media/'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'g.heyderov@gmail.com'
+EMAIL_HOST_PASSWORD = 'tknrobvbkeqojhzk'
+EMAIL_PORT = 587
