@@ -55,6 +55,7 @@ class RecipeDetailView(FormMixin, DetailView):
         context['categories'] = Category.objects.all()
         return context
     
+    
     def post(self, request, *args, **kwargs):
         self.object = self.get_object()
         form = self.get_form()
