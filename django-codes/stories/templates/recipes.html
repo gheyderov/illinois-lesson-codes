@@ -23,11 +23,11 @@
             <div class="col-lg-9">
                 <div class="row">
                     {% include 'messages.html' %}
-                    {% for recipe in recipe_lists %}
+                    {% for recipe in recipes %}
                     <div class="col-md-6 col-lg-12 ftco-animate">
                         <div class="blog-entry d-lg-flex">
                             <div class="half">
-                                <a href="{% url 'single' %}" class="img d-flex align-items-end"
+                                <a href="{% url 'recipe_detail' recipe.pk %}" class="img d-flex align-items-end"
                                    style="background-image: url({{ recipe.image.url }});">
                                     <div class="overlay"></div>
                                 </a>
@@ -35,12 +35,12 @@
                             <div class="text px-md-4 px-lg-5 half pt-3">
                                 <p class="meta d-flex"><span class="pr-3">{{ recipe.category }}</span><span class="ml-auto pl-3">{{ recipe.created_at }}</span>
                                 </p>
-                                <h3><a href="{% url 'single' %}">{{ recipe.title }}</a></h3>
+                                <h3><a href="{% url 'recipe_detail' recipe.pk %}">{{ recipe.title }}</a></h3>
                                 <p>{{ recipe.small_description }}
                                 </p>
                                 <p class="mb-0">
                                     <a href="{% url 'like_post' recipe.id %}" class="btn btn-primary">Like</a>
-                                    <a href="{% url 'single' %}" class="btn btn-primary">Read More <span
+                                    <a href="{% url 'recipe_detail' recipe.pk %}" class="btn btn-primary">Read More <span
                                         class="icon-arrow_forward ml-4"></span></a></p>
                             </div>
                         </div>
@@ -51,13 +51,20 @@
                     <div class="col text-center">
                         <div class="block-27">
                             <ul>
-                                <li><a href="#">&lt;</a></li>
-                                <li class="active"><span>1</span></li>
-                                <li><a href="#">2</a></li>
-                                <li><a href="#">3</a></li>
-                                <li><a href="#">4</a></li>
-                                <li><a href="#">5</a></li>
-                                <li><a href="#">&gt;</a></li>
+                                {% if page_obj.has_previous %}
+                                <li><a href="?page={{ page_obj.previous_page_number }}">&lt;</a></li>
+                                {% endif %}
+                                {% for page in page_obj.paginator.page_range %}
+                                {% if page is page_obj.number %}
+                                <li class="active"><span>{{page}}</span></li>
+                                {% else %}
+                    
+                                <li><a href="?page={{page}}">{{page}}</a></li>
+                                {% endif %}
+                                {% endfor %}
+                                {% if page_obj.has_next %}
+                                <li><a href="?page={{ page_obj.next_page_number }}">&gt;</a></li>
+                                {% endif %}
                             </ul>
                         </div>
                     </div>

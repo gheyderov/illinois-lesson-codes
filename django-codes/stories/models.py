@@ -20,8 +20,15 @@ class Recipe(AbstractModel):
     def __str__(self):
         return self.title
     
-    class Meta:
-        ordering = '-created_at',
+    # class Meta:
+    #     ordering = '-created_at',
+
+
+class Comment(AbstractModel):
+    parent = models.ForeignKey('self', on_delete=models.CASCADE, null=True, blank=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE)
+    content = models.CharField(max_length=255)
 
 
 class Category(AbstractModel):

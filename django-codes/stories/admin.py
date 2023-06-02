@@ -2,7 +2,8 @@ from django.contrib import admin
 from .models import (
     Recipe,
     Category,
-    Tag
+    Tag,
+    Comment
 )
 
 # Register your models here.
@@ -10,3 +11,4 @@ from .models import (
 admin.site.register(Recipe)
 admin.site.register(Category)
 admin.site.register(Tag)
+admin.site.register(Comment)

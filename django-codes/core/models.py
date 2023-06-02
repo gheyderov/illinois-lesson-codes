@@ -16,6 +16,7 @@ class Contact(AbstractModel):
     email = models.EmailField('E-poct', max_length=30)
     subject = models.CharField('Movzu', max_length=100, null=True, blank=True)
     message = models.TextField()
+    
 
     class Meta:
         ordering = '-created_at',

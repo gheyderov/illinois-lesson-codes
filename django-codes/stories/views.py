@@ -1,7 +1,12 @@
+from typing import Any, Dict
+from django.http import HttpResponse
 from django.shortcuts import render, HttpResponse
 from .models import Recipe, Category
 from django.contrib import messages
-
+from django.views.generic import ListView, DetailView
+from django.views.generic.edit import FormMixin
+from .forms import CommentForm
+from django.urls import reverse_lazy
 
 # Create your views here.
 
@@ -16,11 +21,56 @@ def recipe(request):
     recipes = Recipe.objects.all()
     categories = Category.objects.all()
     context = {
-        'recipe_lists' : recipes,
+        'recipe_list' : recipes,
         'categories' : categories
 
     }
     return render(request, 'recipes.html', context)
+
+
+class RecipeListView(ListView):
+    model = Recipe
+    template_name = 'recipes.html'
+    context_object_name = 'recipes'
+    ordering = ['-created_at']
+    paginate_by = 2
+
+    def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
+        context =  super().get_context_data(**kwargs)
+        context['categories'] = Category.objects.all()
+        return context
+
+
+class RecipeDetailView(FormMixin, DetailView):
+    model = Recipe
+    template_name = 'single.html'
+    form_class = CommentForm
+    
+
+    def get_success_url(self) -> str:
+        return reverse_lazy('recipe_detail', kwargs = {'pk' : self.object.pk})
+
+    def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
+        context =  super().get_context_data(**kwargs)
+        context['categories'] = Category.objects.all()
+        return context
+    
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        form = self.get_form()
+        if form.is_valid():
+            return self.form_valid(form)
+        else:
+            return self.form_invalid(form)
+        
+    def form_valid(self, form: Any) -> HttpResponse:
+        form.instance.recipe = self.object
+        form.instance.user = self.request.user
+        form.save()
+        return super().form_valid(form)
+        
+
+
 
 def create_story(request):
     return render(request, 'create_story.html')
