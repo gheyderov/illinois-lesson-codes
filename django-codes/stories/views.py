@@ -1,11 +1,14 @@
 from typing import Any, Dict
+from django.db.models.query import QuerySet
+from django.forms.models import BaseModelForm
 from django.http import HttpResponse
 from django.shortcuts import render, HttpResponse
 from .models import Recipe, Category
 from django.contrib import messages
-from django.views.generic import ListView, DetailView
+from django.views.generic import ListView, DetailView, TemplateView, CreateView, UpdateView
 from django.views.generic.edit import FormMixin
-from .forms import CommentForm
+from django.contrib.auth.mixins import LoginRequiredMixin
+from .forms import CommentForm, RecipeForm
 from django.urls import reverse_lazy
 
 # Create your views here.
@@ -39,6 +42,18 @@ class RecipeListView(ListView):
         context =  super().get_context_data(**kwargs)
         context['categories'] = Category.objects.all()
         return context
+    
+    def get_queryset(self) -> QuerySet[Any]:
+        queryset = super().get_queryset()
+        cat_id = self.request.GET.get('category')
+        tag_id = self.request.GET.get('tag')
+        if cat_id:
+            queryset = queryset.filter(category__id = cat_id)
+        if tag_id:
+            queryset = queryset.filter(tags__id = tag_id)
+        return queryset
+
+        
 
 
 class RecipeDetailView(FormMixin, DetailView):
@@ -75,6 +90,25 @@ class RecipeDetailView(FormMixin, DetailView):
 
 def create_story(request):
     return render(request, 'create_story.html')
+
+
+class CreateRecipe(LoginRequiredMixin, CreateView):
+    template_name = 'create_recipe.html'
+    form_class = RecipeForm
+    # success_url = reverse_lazy('home')
+
+    def form_valid(self, form: BaseModelForm) -> HttpResponse:
+        form.instance.author = self.request.user
+        return super().form_valid(form)
+    
+
+class UpdateRecipe(LoginRequiredMixin, UpdateView):
+    template_name = 'create_recipe.html'
+    form_class = RecipeForm
+    model = Recipe
+    # success_url = reverse_lazy('home')
+
+
 
 # def like_post(request, pk):
 #     messages.add_message(request, messages.SUCCESS, "Liked")

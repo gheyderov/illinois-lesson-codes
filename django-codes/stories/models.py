@@ -1,6 +1,7 @@
 from django.db import models
 from core.models import AbstractModel
 from django.contrib.auth import get_user_model
+from django.urls import reverse_lazy
 
 User = get_user_model()
 
@@ -20,6 +21,9 @@ class Recipe(AbstractModel):
     def __str__(self):
         return self.title
     
+    def get_absolute_url(self, **kwargs):
+        return reverse_lazy('recipe_detail', kwargs = {'pk': self.id})
+    
     # class Meta:
     #     ordering = '-created_at',
 
@@ -27,7 +31,7 @@ class Recipe(AbstractModel):
 class Comment(AbstractModel):
     parent = models.ForeignKey('self', on_delete=models.CASCADE, null=True, blank=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE)
+    recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE, related_name='comments')
     content = models.CharField(max_length=255)
 
 
