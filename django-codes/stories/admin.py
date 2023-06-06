@@ -5,6 +5,7 @@ from .models import (
     Tag,
     Comment
 )
+from modeltranslation.admin import TranslationAdmin
 
 # Register your models here.
 
@@ -13,7 +14,7 @@ admin.site.register(Tag)
 admin.site.register(Comment)
 
 @admin.register(Recipe)
-class RecipeAdmin(admin.ModelAdmin):
+class RecipeAdmin(TranslationAdmin):
     list_display = ['title', 'category', 'get_tags']
 
     def get_tags(self, obj):

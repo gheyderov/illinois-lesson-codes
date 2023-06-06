@@ -4,7 +4,6 @@ from core.models import BlockedIps
 class SaveIpAdressMiddleware(MiddlewareMixin):
     
     def process_request(self, request):
-        print(request.META.get('REMOTE_ADDR'))
 
         if request.user.is_authenticated:
             ip_address = request.META.get('REMOTE_ADDR')

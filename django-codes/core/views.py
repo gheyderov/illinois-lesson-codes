@@ -5,6 +5,7 @@ from .forms import ContactForm
 from django.urls import reverse_lazy
 from django.contrib import messages
 from django.views.generic import CreateView
+from django.utils.translation import gettext_lazy as _
 from .models import Contact
 # Create your views here.
 
@@ -34,5 +35,5 @@ class ContactView(CreateView):
     success_url = reverse_lazy('contact')
 
     def form_valid(self, form: BaseModelForm):
-        messages.add_message(self.request, messages.SUCCESS, "SUCCESS")
+        messages.add_message(self.request, messages.SUCCESS, _("SUCCESS"))
         return super().form_valid(form)
