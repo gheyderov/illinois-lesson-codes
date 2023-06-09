@@ -16,7 +16,6 @@ class SaveIpAdressMiddleware(MiddlewareMixin):
     
 class BlockIpAddress(MiddlewareMixin):
     def process_request(self, request):
-        print(request.META.get('REMOTE_ADDR'))
         ip = request.META.get('REMOTE_ADDR')
         x = BlockedIps.objects.filter(ip_address = ip)
         if x:

@@ -20,6 +20,7 @@ from accounts.tokens import account_activation_token
 from django.utils.http import urlsafe_base64_decode
 from accounts.tokens import account_activation_token
 from django.utils.encoding import force_str
+from django.contrib.auth.views import LoginView
 # Create your views here.
 
 
@@ -39,6 +40,13 @@ def login(request):
         'form' : form
     }
     return render(request, 'login.html', context)
+
+
+class UserLoginView(LoginView):
+    template_name = 'login.html'
+    form_class = LoginForm
+
+
 
 def register(request):
     form = RegisterForm()

@@ -43,7 +43,9 @@ INSTALLED_APPS = [
     'stories',
     'accounts',
     'social_django',
-    'rosetta']
+    'rosetta',
+    'rest_framework',
+    ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
