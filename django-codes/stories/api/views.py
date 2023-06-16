@@ -1,5 +1,6 @@
 from stories.models import Category, Recipe
 from django.http import JsonResponse
+from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from stories.api.serializers import (
     CategorySerializer, 
     RecipeSerializer, 
@@ -28,6 +29,7 @@ def categories(request):
 class RecipeCreateAPIView(ListCreateAPIView):
     serializer_class = RecipeCreateSerializer
     queryset = Recipe.objects.all()
+    permission_classes = (IsAuthenticatedOrReadOnly,)
 
     def get_serializer_class(self):
         if self.request.method == 'GET':

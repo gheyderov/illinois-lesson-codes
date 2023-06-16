@@ -41,6 +41,7 @@ class RecipeSerializer(serializers.ModelSerializer):
 
 
 class RecipeCreateSerializer(serializers.ModelSerializer):
+    author = serializers.PrimaryKeyRelatedField(read_only=True)
     slug = serializers.SlugField(read_only=True)
     class Meta:
         model = Recipe
@@ -56,3 +57,8 @@ class RecipeCreateSerializer(serializers.ModelSerializer):
             'small_description',
             'description'
         )
+
+    def validate(self, attrs):
+        request = self.context['request']
+        attrs['author'] = request.user
+        return super().validate(attrs)

@@ -1,4 +1,4 @@
-from typing import Any, Dict
+from typing import Any, Dict, Sequence
 from django.db.models.query import QuerySet
 from django.forms.models import BaseModelForm
 from django.http import HttpResponse
@@ -35,8 +35,8 @@ class RecipeListView(ListView):
     model = Recipe
     template_name = 'recipes.html'
     context_object_name = 'recipes'
-    ordering = ['-created_at']
     paginate_by = 2
+
 
     def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
         context =  super().get_context_data(**kwargs)
