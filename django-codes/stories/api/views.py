@@ -1,10 +1,11 @@
-from stories.models import Category, Recipe
+from stories.models import Category, Recipe, Tag
 from django.http import JsonResponse
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from stories.api.serializers import (
     CategorySerializer, 
     RecipeSerializer, 
-    RecipeCreateSerializer
+    RecipeCreateSerializer,
+    TagSerializer
     )
 from rest_framework.decorators import api_view
 from rest_framework.generics import (
@@ -24,6 +25,11 @@ def categories(request):
     #     })
     serializer = CategorySerializer(category_list, many = True)
     return JsonResponse(data=serializer.data, safe=False)
+
+
+class TagAPIView(ListAPIView):
+    serializer_class = TagSerializer
+    queryset = Tag.objects.all()
 
 
 class RecipeCreateAPIView(ListCreateAPIView):
