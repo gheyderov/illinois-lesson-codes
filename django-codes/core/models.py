@@ -12,7 +12,7 @@ class AbstractModel(models.Model):
 
 
 class Contact(AbstractModel):
-    name = models.CharField('Adiniz', max_length=100)
+    name = models.CharField('Adiniz', max_length=155)
     email = models.EmailField('E-poct', max_length=30)
     subject = models.CharField('Movzu', max_length=100, null=True, blank=True)
     message = models.TextField()

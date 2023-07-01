@@ -12,7 +12,7 @@ from stories.api.views import (
 urlpatterns = [
     path('categories/', categories, name='categories'),
     path('tags/', TagAPIView.as_view(), name='tags'),
-    path('recipes/', RecipeCreateAPIView.as_view(), name='recipes'),
+    path('recipes/', RecipeCreateAPIView.as_view(), name='recipe_lists'),
     path('recipes/<int:pk>/', RecipeRetrieveUpdateDestroyAPIView.as_view(), name='recipe_read_update'),
 
     

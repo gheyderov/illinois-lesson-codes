@@ -40,11 +40,11 @@ class ContactForm(forms.ModelForm):
             
         }
 
-    def clean(self):
-        value = self.cleaned_data['email']
-        if not value.endswith('gmail.com'):
-            raise forms.ValidationError('Email must be gmail.com')
-        return self.cleaned_data
+    # def clean(self):
+    #     value = self.cleaned_data['email']
+    #     if not value.endswith('gmail.com'):
+    #         raise forms.ValidationError('Email must be gmail.com')
+    #     return self.cleaned_data
     
     def clean_name(self):
         value = self.cleaned_data.get('name')
