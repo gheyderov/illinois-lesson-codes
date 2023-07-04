@@ -346,9 +346,10 @@
                         <p>A small river named Duden flows by their place and supplies it with the necessary regelialia. It is a paradisematic country, in which roasted parts of sentences fly into your mouth.</p>
                         <div class="row d-flex justify-content-center mt-4 mb-4">
                             <div class="col-md-8">
-                                <form action="#" class="subscribe-form">
+                                <form action="" class="subscribe-form" id="subscribe-form" method="post">
+                                    {% csrf_token %}
                                     <div class="form-group d-flex">
-                                        <input type="text" class="form-control" placeholder="Enter email address">
+                                        <input type="email" id="subscribe-email" class="form-control" placeholder="Enter email address">
                                         <input type="submit" value="Subscribe" class="submit px-3">
                                     </div>
                                 </form>

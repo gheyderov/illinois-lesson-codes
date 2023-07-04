@@ -5,12 +5,14 @@ from stories.api.views import (
     recipe_read_update,
     RecipeCreateAPIView,
     RecipeRetrieveUpdateDestroyAPIView,
-    TagAPIView
+    TagAPIView,
+    SubscriberCreateAPIView
     )
 
 
 urlpatterns = [
     path('categories/', categories, name='categories'),
+    path('subscribers/', SubscriberCreateAPIView.as_view(), name='subcribers'),
     path('tags/', TagAPIView.as_view(), name='tags'),
     path('recipes/', RecipeCreateAPIView.as_view(), name='recipe_lists'),
     path('recipes/<int:pk>/', RecipeRetrieveUpdateDestroyAPIView.as_view(), name='recipe_read_update'),

@@ -1,11 +1,13 @@
 from stories.models import Category, Recipe, Tag
+from core.models import Subscribers
 from django.http import JsonResponse
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from stories.api.serializers import (
     CategorySerializer, 
     RecipeSerializer, 
     RecipeCreateSerializer,
-    TagSerializer
+    TagSerializer,
+    SubscriberSerializer
     )
 from rest_framework.decorators import api_view
 from rest_framework.generics import (
@@ -81,3 +83,7 @@ def recipe_read_update(request, pk):
             return JsonResponse(data = serializer.data, safe=False, status = 201)
         return JsonResponse(data = serializer.errors, safe=False, status = 400)
     
+
+class SubscriberCreateAPIView(CreateAPIView):
+    serializer_class = SubscriberSerializer
+    queryset = Subscribers.objects.all()
