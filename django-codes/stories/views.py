@@ -10,6 +10,7 @@ from django.views.generic.edit import FormMixin
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .forms import CommentForm, RecipeForm
 from django.urls import reverse_lazy
+from stories.tasks import export_data
 
 # Create your views here.
 
@@ -119,3 +120,8 @@ def like_post(request, pk):
     response = HttpResponse('test')
     response.set_cookie('liked_posts', request.COOKIES.get('liked_posts', ' ') + str(pk) + ' ')
     return response
+
+
+def export_view(request):
+    export_data.delay()
+    return HttpResponse('success')

@@ -1,5 +1,5 @@
 from django.urls import path
-from stories.views import story, single, recipe, create_story, like_post, RecipeListView, RecipeDetailView, CreateRecipe, UpdateRecipe
+from stories.views import story, single, recipe, create_story, like_post, RecipeListView, RecipeDetailView, CreateRecipe, UpdateRecipe, export_view
 
 urlpatterns = [
     path('stories/', story, name='stories'),
@@ -10,6 +10,7 @@ urlpatterns = [
     path('create_story/', create_story, name='create_story'),
     path('create_recipe/', CreateRecipe.as_view(), name='create_recipe'),
     path('update_recipe/<int:pk>/', UpdateRecipe.as_view(), name='update_recipe'),
+    path('export/', export_view, name='export_view'),
 
 
 ]
