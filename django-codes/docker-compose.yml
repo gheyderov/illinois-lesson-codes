@@ -7,12 +7,23 @@ services:
     restart: always
     ports:
       - 5432:5432
-    environment:
-      POSTGRES_PASSWORD: 12345
-      POSTGRES_USER: 'tech'
-      POSTGRES_DB: 'stories'
+    env_file:
+      - .env
     volumes:
       - ./pgdb:/var/lib/postgresql/data
+
+  web:
+    container_name: food_stories
+    build: .
+    ports:
+      - 8002:8000
+    depends_on:
+      - "db"
+      - "redis"
+    env_file:
+      - .env
+      
+
 
   redis:
     image: redis

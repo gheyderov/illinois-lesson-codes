@@ -24,9 +24,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-p*e=k9atm!y%-hi4vedpu!fmb5gu$b6^=*7epvms@%^i_xijui'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False if os.environ.get('DEBUG') else True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -123,11 +123,11 @@ SIMPLE_JWT = {
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'stories',
-        'USER': 'tech',
-        'PASSWORD' : 12345,
-        'HOST': 'localhost',
-        'PORT': 5432
+        'NAME': os.environ.get('POSTGRES_DB', 'stories'),
+        'USER': os.environ.get('POSTGRES_USER', 'tech'),
+        'PASSWORD' : os.environ.get('POSTGRES_PASSWORD', 12345),
+        'HOST': os.environ.get('POSTGRES_HOST', 'localhost'),
+        'PORT': os.environ.get('POSTGRES_PORT', 5432)
     }
 }
 AUTH_USER_MODEL = 'accounts.User'
@@ -201,9 +201,13 @@ SOCIAL_AUTH_FACEBOOK_SECRET = 'c9ec4c53c49266cedf0426aab4d4af19'  # App Secret
 
 STATIC_URL = 'static/'
 
-STATICFILES_DIRS = [
-    BASE_DIR , 'static/'
-]
+if DEBUG:
+    STATICFILES_DIRS = [
+        BASE_DIR , 'static/'
+    ]
+else:
+    STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+
 MEDIA_ROOT = BASE_DIR / 'media'
 
 MEDIA_URL = '/media/'
@@ -221,5 +225,5 @@ EMAIL_HOST_PASSWORD = 'ufkgzxotnodrjbmm'
 EMAIL_PORT = 587
 
 
-CELERY_BROKER_URL = "redis://localhost:6379"
-CELERY_RESULT_BACKEND = "redis://localhost:6379"
+CELERY_BROKER_URL = f"redis://{os.environ.get('REDIS_HOST', 'localhost')}:6379"
+CELERY_RESULT_BACKEND = f"redis://{os.environ.get('REDIS_HOST', 'localhost')}:6379"
