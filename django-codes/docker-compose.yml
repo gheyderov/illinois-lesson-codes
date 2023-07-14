@@ -1,38 +1,36 @@
-version: '3.1'
+version: '3'
 
 services:
-
-  db:
-    image: postgres
-    restart: always
+  postgres:
+    container_name:  postgres-db
+    image:           postgres
     ports:
-      - 5432:5432
-    env_file:
-      - .env
+      - 5432:5432 # Bind host port 5432 to PostgreSQL port 5432
     volumes:
       - ./pgdb:/var/lib/postgresql/data
+    env_file: .env
+    environment:
+      - LC_ALL=C.UTF-8
 
   web:
-    container_name: food_stories
+    container_name: monoline
     build: .
+    restart: "always"
+    env_file: .env
+    volumes:
+      - .:/code
+      - ./static/:/code/static/
+      - ./media/:/code/media/
     ports:
-      - 8002:8000
+      - "8000:8000"
+    links:
+      - postgres
     depends_on:
-      - "db"
-      - "redis"
-    env_file:
-      - .env
-      
+      - "postgres"
 
 
-  redis:
-    image: redis
-    restart: always
-    ports:
-      - 6379:6379
-    
-  adminer:
-    image: adminer
-    restart: always
-    ports:
-      - 8080:8080
+networks:
+    localnetworks:
+        name: nginx-proxy
+        external: True
+            
